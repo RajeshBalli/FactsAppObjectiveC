@@ -44,6 +44,8 @@
 
   NSURLSessionDataTask *dataTask;
   dataTask = [URLSessionManager dataTaskWithRequest:request
+                                     uploadProgress:nil
+                                   downloadProgress:nil
                                   completionHandler:^(NSURLResponse *response,
                                                       id responseObject,
                                                       NSError *error) {
@@ -115,6 +117,8 @@
     NSURLSessionDataTask *dataTask;
     dataTask = [URLSessionManager
                 dataTaskWithRequest:request
+                uploadProgress:nil
+                downloadProgress:nil
                 completionHandler:^(NSURLResponse *response,
                                     id responseObject,
                                     NSError *error) {
