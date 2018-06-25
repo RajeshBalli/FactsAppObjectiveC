@@ -104,6 +104,15 @@ NSString * const gFactsTableViewCellUniqueID = @"factsTableViewCell";
   [self fetchFactsDataWithEndRefreshing:YES];
 }
 
+- (void)viewWillTransitionToSize:(CGSize)size
+       withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
+
+  [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
+
+  // reload during orientation change as images are not refreshing
+  [self.tableView reloadData];
+}
+
 // MARK: TableView
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 

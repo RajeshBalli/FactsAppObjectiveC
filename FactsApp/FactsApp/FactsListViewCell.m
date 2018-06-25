@@ -55,9 +55,18 @@ typedef NS_ENUM(NSInteger, FactsListViewCellConstants) {
     [self addSubview:_factsImageView];
 
     [_titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-      make.top.equalTo(self).offset(FactsListViewCellConstraintTitleLabelTopOffset);
-      make.left.equalTo(self).offset(FactsListViewCellConstraintLeftOffset);
-      make.right.equalTo(self).offset(FactsListViewCellConstraintRightOffset);
+      if (@available(iOS 11.0, *)) {
+        make.top.equalTo(self.mas_safeAreaLayoutGuideTop)
+            .offset(FactsListViewCellConstraintTitleLabelTopOffset);
+        make.left.equalTo(self.mas_safeAreaLayoutGuideLeft)
+            .offset(FactsListViewCellConstraintLeftOffset);
+        make.right.equalTo(self.mas_safeAreaLayoutGuideRight)
+            .offset(FactsListViewCellConstraintRightOffset);
+      } else {
+        make.top.equalTo(self).offset(FactsListViewCellConstraintTitleLabelTopOffset);
+        make.left.equalTo(self).offset(FactsListViewCellConstraintLeftOffset);
+        make.right.equalTo(self).offset(FactsListViewCellConstraintRightOffset);
+      }
     }];
 
     __weak FactsListViewCell *weakSelf = self;
@@ -65,16 +74,32 @@ typedef NS_ENUM(NSInteger, FactsListViewCellConstants) {
     [_descriptionLabel mas_makeConstraints:^(MASConstraintMaker *make) {
       if (weakSelf != nil) {
         make.top.equalTo([weakSelf titleLabel].mas_bottom).offset(1);
-        make.left.equalTo(self).offset(FactsListViewCellConstraintLeftOffset);
-        make.right.equalTo(self).offset(FactsListViewCellConstraintRightOffset);
+
+        if (@available(iOS 11.0, *)) {
+          make.left.equalTo(self.mas_safeAreaLayoutGuideLeft)
+              .offset(FactsListViewCellConstraintLeftOffset);
+          make.right.equalTo(self.mas_safeAreaLayoutGuideRight)
+              .offset(FactsListViewCellConstraintRightOffset);
+        } else {
+          make.left.equalTo(self).offset(FactsListViewCellConstraintLeftOffset);
+          make.right.equalTo(self).offset(FactsListViewCellConstraintRightOffset);
+        }
       }
     }];
 
     [_factsImageView mas_makeConstraints:^(MASConstraintMaker *make) {
       if (weakSelf != nil) {
         make.top.equalTo([weakSelf descriptionLabel].mas_bottom).offset(1);
-        make.left.equalTo(self).offset(FactsListViewCellConstraintLeftOffset);
-        make.bottom.equalTo(self).offset(FactsListViewCellConstraintFactsImageViewBottomOffset);
+
+        if (@available(iOS 11.0, *)) {
+          make.left.equalTo(self.mas_safeAreaLayoutGuideLeft)
+              .offset(FactsListViewCellConstraintLeftOffset);
+          make.bottom.equalTo(self.mas_safeAreaLayoutGuideBottom)
+              .offset(FactsListViewCellConstraintFactsImageViewBottomOffset);
+        } else {
+          make.left.equalTo(self).offset(FactsListViewCellConstraintLeftOffset);
+          make.bottom.equalTo(self).offset(FactsListViewCellConstraintFactsImageViewBottomOffset);
+        }
 
         // set the width as default 0 to resize it dynamically
         weakSelf.imageViewWidthConstraints = make.width.lessThanOrEqualTo(@0);
