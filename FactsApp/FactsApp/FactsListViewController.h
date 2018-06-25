@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
+@class ServiceManager;
+
 @interface FactsListViewController : UIViewController
 
 @end

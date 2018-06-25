@@ -15,9 +15,9 @@
 
 @interface FactsRowData : NSObject
 
-@property (nonatomic, strong) NSString *factTitle;
-@property (nonatomic, strong) NSString *factDescription;
-@property (nonatomic, strong) NSString *factImageURL;
+@property (nonatomic, copy) NSString *factTitle;
+@property (nonatomic, copy) NSString *factDescription;
+@property (nonatomic, copy) NSString *factImageURL;
 @property (nonatomic, strong) UIImage *factImage;
 
 - (id)initWithFactTitle:(NSString *)aTitle
