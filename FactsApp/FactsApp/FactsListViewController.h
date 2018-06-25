@@ -10,7 +10,7 @@
 
 @class ServiceManager;
 
-@interface FactsListViewController : UIViewController
+@interface FactsListViewController : UITableViewController
 
 @end
 

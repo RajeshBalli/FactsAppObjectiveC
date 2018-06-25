@@ -8,6 +8,10 @@
 
 #import "FactsListViewController.h"
 #import "ServiceManager.h"
+#import "FactsListViewCell.h"
+#import "FactsRowData.h"
+
+NSString * const gFactsTableViewCellUniqueID = @"factsTableViewCell";
 
 @interface FactsListViewController ()
 {
@@ -36,6 +40,9 @@
 
   [self.view addSubview:_activityIndicator];
 
+  [self.tableView registerClass:FactsListViewCell.self
+         forCellReuseIdentifier:gFactsTableViewCellUniqueID];
+
   [self fetchFactsData];
 }
 
@@ -61,10 +68,41 @@
   [_serviceManager fetchFactsWithCompletionHandler:^{
     if (weakSelf != nil) {
       weakSelf.navigationItem.title = [[weakSelf serviceManager] factsTitle];
+      [weakSelf.tableView reloadData];
 
       [[weakSelf activityIndicator] stopAnimating];
     }
   }];
+}
+
+// MARK: TableView
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+
+  return _serviceManager.factsRowData.count;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView
+         cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+
+  FactsListViewCell *factsListViewCell = [tableView
+                                          dequeueReusableCellWithIdentifier:
+                                          gFactsTableViewCellUniqueID];
+
+  factsListViewCell.selectionStyle = UITableViewCellSelectionStyleNone;
+
+  FactsRowData *factData = _serviceManager.factsRowData[indexPath.row];
+
+  if ([factData.factTitle isEqual:[NSNull null]] == false) {
+    factsListViewCell.titleLabel.text = factData.factTitle;
+  }
+
+  if ([factData.factDescription isEqual:[NSNull null]] == false) {
+    factsListViewCell.descriptionLabel.text = factData.factDescription;
+  }
+
+  factsListViewCell.factsImageView.image = nil;
+
+  return factsListViewCell;
 }
 
 @end

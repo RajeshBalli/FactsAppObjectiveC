@@ -13,6 +13,7 @@
 		28EA345920E0D61800B8D5C1 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 28EA345820E0D61800B8D5C1 /* main.m */; };
 		28FEA96520E0E5AE0013CDD8 /* ServiceManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 28FEA96420E0E5AE0013CDD8 /* ServiceManager.m */; };
 		28FEA96920E0E9F80013CDD8 /* FactsRowData.m in Sources */ = {isa = PBXBuildFile; fileRef = 28FEA96820E0E9F80013CDD8 /* FactsRowData.m */; };
+		28FEA96C20E115430013CDD8 /* FactsListViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 28FEA96B20E115430013CDD8 /* FactsListViewCell.m */; };
 		8BD56D241827CB3037CF7F38 /* libPods-FactsApp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D0529E108FBEB459D707F375 /* libPods-FactsApp.a */; };
 /* End PBXBuildFile section */
 
@@ -29,6 +30,8 @@
 		28FEA96620E0E5DA0013CDD8 /* ServiceManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ServiceManager.h; sourceTree = "<group>"; };
 		28FEA96720E0E9E70013CDD8 /* FactsRowData.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FactsRowData.h; sourceTree = "<group>"; };
 		28FEA96820E0E9F80013CDD8 /* FactsRowData.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FactsRowData.m; sourceTree = "<group>"; };
+		28FEA96A20E115430013CDD8 /* FactsListViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FactsListViewCell.h; sourceTree = "<group>"; };
+		28FEA96B20E115430013CDD8 /* FactsListViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FactsListViewCell.m; sourceTree = "<group>"; };
 		29FFAE46DB6AB3EB7B6CC1E9 /* Pods-FactsApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FactsApp.release.xcconfig"; path = "Pods/Target Support Files/Pods-FactsApp/Pods-FactsApp.release.xcconfig"; sourceTree = "<group>"; };
 		7078E682E22D54D94D53E1BA /* Pods-FactsApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FactsApp.debug.xcconfig"; path = "Pods/Target Support Files/Pods-FactsApp/Pods-FactsApp.debug.xcconfig"; sourceTree = "<group>"; };
 		D0529E108FBEB459D707F375 /* libPods-FactsApp.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-FactsApp.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -87,6 +90,8 @@
 				28FEA96620E0E5DA0013CDD8 /* ServiceManager.h */,
 				28FEA96720E0E9E70013CDD8 /* FactsRowData.h */,
 				28FEA96820E0E9F80013CDD8 /* FactsRowData.m */,
+				28FEA96A20E115430013CDD8 /* FactsListViewCell.h */,
+				28FEA96B20E115430013CDD8 /* FactsListViewCell.m */,
 			);
 			path = FactsApp;
 			sourceTree = "<group>";
@@ -191,6 +196,7 @@
 			files = (
 				28EA344E20E0D61800B8D5C1 /* FactsListViewController.m in Sources */,
 				28EA345920E0D61800B8D5C1 /* main.m in Sources */,
+				28FEA96C20E115430013CDD8 /* FactsListViewCell.m in Sources */,
 				28EA344B20E0D61800B8D5C1 /* AppDelegate.m in Sources */,
 				28FEA96920E0E9F80013CDD8 /* FactsRowData.m in Sources */,
 				28FEA96520E0E5AE0013CDD8 /* ServiceManager.m in Sources */,
