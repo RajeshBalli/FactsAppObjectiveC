@@ -23,13 +23,19 @@ typedef NS_ENUM(NSInteger, FactsListViewCellConstants) {
   UILabel *_titleLabel;
   UILabel *_descriptionLabel;
   UIImageView *_factsImageView;
+
+  // store facts image view width constraint to dynamically change width of the imageview
+  MASConstraint *_imageViewWidthConstraints;
 }
+
+@property (nonatomic, strong) MASConstraint *imageViewWidthConstraints;
 
 @end
 
 @implementation FactsListViewCell
 
-@synthesize titleLabel = _titleLabel, descriptionLabel = _descriptionLabel;
+@synthesize titleLabel = _titleLabel, descriptionLabel = _descriptionLabel,
+            imageViewWidthConstraints = _imageViewWidthConstraints;
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
 
@@ -69,11 +75,37 @@ typedef NS_ENUM(NSInteger, FactsListViewCellConstants) {
         make.top.equalTo([weakSelf descriptionLabel].mas_bottom).offset(1);
         make.left.equalTo(self).offset(FactsListViewCellConstraintLeftOffset);
         make.bottom.equalTo(self).offset(FactsListViewCellConstraintFactsImageViewBottomOffset);
+
+        // set the width as default 0 to resize it dynamically
+        weakSelf.imageViewWidthConstraints = make.width.lessThanOrEqualTo(@0);
       }
     }];
   }
 
   return self;
+}
+
+- (void)layoutSubviews {
+
+  [super layoutSubviews];
+
+  if (_factsImageView.image != nil) {
+    CGSize imageSize = _factsImageView.image.size;
+    CGFloat imageWidth = imageSize.width;
+
+    // offsetwidth = spacing at left + spacing at right
+    CGFloat offsetWidth = FactsListViewCellConstraintLeftOffset - FactsListViewCellConstraintRightOffset;
+
+    // if image extends beyond the cell then resize the image
+    if (imageSize.width > (self.bounds.size.width - offsetWidth)) {
+
+      // get new image size based on aspect ratio of image. aspectRatio = (oldWidth / oldHeight). newWidth = (newHeight * aspectRatio).
+      imageWidth = _factsImageView.bounds.size.height * ((self.bounds.size.width - offsetWidth) / imageSize.height);
+    }
+
+    // update imageview width
+    self.imageViewWidthConstraints.offset(imageWidth);
+  }
 }
 
 @end

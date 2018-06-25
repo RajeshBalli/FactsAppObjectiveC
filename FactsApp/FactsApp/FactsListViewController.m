@@ -101,10 +101,14 @@ NSString * const gFactsTableViewCellUniqueID = @"factsTableViewCell";
 
   if ([factData.factTitle isEqual:[NSNull null]] == false) {
     factsListViewCell.titleLabel.text = factData.factTitle;
+  } else {
+    factsListViewCell.titleLabel.text = nil;
   }
 
   if ([factData.factDescription isEqual:[NSNull null]] == false) {
     factsListViewCell.descriptionLabel.text = factData.factDescription;
+  } else {
+    factsListViewCell.descriptionLabel.text = nil;
   }
 
   factsListViewCell.factsImageView.image = nil;
