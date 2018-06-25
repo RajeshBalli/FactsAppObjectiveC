@@ -136,4 +136,10 @@
   }
 }
 
+- (void)resetFactsData {
+
+  self.factsTitle = @"";
+  self.factsRowData = [[NSMutableArray alloc] init];
+}
+
 @end

@@ -18,6 +18,7 @@ NSString * const gFactsTableViewCellUniqueID = @"factsTableViewCell";
   ServiceManager *_serviceManager;
   UIActivityIndicatorView *_activityIndicator;
   NSMutableDictionary *_imageCache;  // used for image caching
+  UIRefreshControl *_refreshDataControl;
 }
 
 - (ServiceManager *)serviceManager;
@@ -37,6 +38,8 @@ NSString * const gFactsTableViewCellUniqueID = @"factsTableViewCell";
 
   _imageCache = [[NSMutableDictionary alloc] init];
 
+  _refreshDataControl = [[UIRefreshControl alloc] init];
+
   _serviceManager = [[ServiceManager alloc] init];
 
   _activityIndicator = [[UIActivityIndicatorView alloc]
@@ -50,7 +53,13 @@ NSString * const gFactsTableViewCellUniqueID = @"factsTableViewCell";
   [self.tableView registerClass:FactsListViewCell.self
          forCellReuseIdentifier:gFactsTableViewCellUniqueID];
 
-  [self fetchFactsData];
+  [_refreshDataControl addTarget:self
+                          action:@selector(refreshData)
+                forControlEvents:UIControlEventValueChanged];
+
+  self.refreshControl = _refreshDataControl;
+
+  [self fetchFactsDataWithEndRefreshing:NO];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -65,7 +74,7 @@ NSString * const gFactsTableViewCellUniqueID = @"factsTableViewCell";
   return _activityIndicator;
 }
 
-- (void)fetchFactsData {
+- (void)fetchFactsDataWithEndRefreshing:(BOOL)endRefreshing {
 
   [_activityIndicator startAnimating];
 
@@ -78,8 +87,21 @@ NSString * const gFactsTableViewCellUniqueID = @"factsTableViewCell";
       [weakSelf.tableView reloadData];
 
       [[weakSelf activityIndicator] stopAnimating];
+
+      // End table view refresh only during refresh data flow
+      if (endRefreshing == YES) {
+
+        [weakSelf.refreshControl endRefreshing];
+      }
     }
   }];
+}
+
+- (void)refreshData {
+
+  [self.refreshControl beginRefreshing];
+  [_serviceManager resetFactsData]; // Reset cached data
+  [self fetchFactsDataWithEndRefreshing:YES];
 }
 
 // MARK: TableView

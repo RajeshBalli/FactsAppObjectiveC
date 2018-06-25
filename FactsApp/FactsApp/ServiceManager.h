@@ -23,6 +23,7 @@
 - (void)fetchFactsWithCompletionHandler:(void(^)(void))completionHandler;
 - (void)fetchFactsImageForFactsRowData:(FactsRowData *)factData
                  withCompletionHandler:(void(^)(void))completionHandler;
+- (void)resetFactsData;
 
 @end
 
