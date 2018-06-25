@@ -17,18 +17,25 @@ NSString * const gFactsTableViewCellUniqueID = @"factsTableViewCell";
 {
   ServiceManager *_serviceManager;
   UIActivityIndicatorView *_activityIndicator;
+  NSMutableDictionary *_imageCache;  // used for image caching
 }
 
 - (ServiceManager *)serviceManager;
 - (UIActivityIndicatorView *)activityIndicator;
 
+@property (nonatomic, strong) NSMutableDictionary *imageCache;
+
 @end
 
 @implementation FactsListViewController
 
+@synthesize imageCache = _imageCache;
+
 - (void)viewDidLoad {
 
   [super viewDidLoad];
+
+  _imageCache = [[NSMutableDictionary alloc] init];
 
   _serviceManager = [[ServiceManager alloc] init];
 
@@ -101,6 +108,37 @@ NSString * const gFactsTableViewCellUniqueID = @"factsTableViewCell";
   }
 
   factsListViewCell.factsImageView.image = nil;
+
+  if ([factData.factImageURL isEqual:[NSNull null]] == false) {
+    FactsRowData *cachedFactsData = self.imageCache[factData.factImageURL];
+
+    // is image cached? if cached then do not download else download and cache it
+    if (cachedFactsData != nil) {
+      factsListViewCell.factsImageView.image = cachedFactsData.factImage;
+    } else {
+      __weak FactsListViewController *weakSelf = self;
+
+      [_serviceManager
+       fetchFactsImageForFactsRowData:factData
+                withCompletionHandler:^{
+                  weakSelf.imageCache[factData.factImageURL] = factData;
+
+                  FactsListViewCell *updateFactsListViewCell;
+                  updateFactsListViewCell = [weakSelf.tableView cellForRowAtIndexPath:indexPath];
+
+                  // if cell is visible and image is not set then update the image
+                  if (updateFactsListViewCell != nil
+                      && updateFactsListViewCell.factsImageView.image == nil) {
+                    updateFactsListViewCell.factsImageView.image = factData.factImage;
+
+                    /* setNeedsLayout and layoutIfNeeded are not refreshing the cell
+                     so reloading the specific row at that particular index */
+                    [weakSelf.tableView reloadRowsAtIndexPaths:@[indexPath]
+                                              withRowAnimation:UITableViewRowAnimationAutomatic];
+                  }
+                }];
+    }
+  }
 
   return factsListViewCell;
 }

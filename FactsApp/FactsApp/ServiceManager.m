@@ -97,4 +97,43 @@
   [dataTask resume];
 }
 
+- (void)fetchFactsImageForFactsRowData:(FactsRowData *)factData
+                 withCompletionHandler:(void(^)(void))completionHandler {
+
+  if ([factData.factImageURL isEqual:[NSNull null]] == false) {
+    NSURLSessionConfiguration *URLSessionConfiguration = [NSURLSessionConfiguration
+                                                          defaultSessionConfiguration];
+    AFURLSessionManager *URLSessionManager = [[AFURLSessionManager alloc]
+                                              initWithSessionConfiguration:
+                                              URLSessionConfiguration];
+
+    NSURL *URL = [NSURL URLWithString:factData.factImageURL];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:URL];
+
+    URLSessionManager.responseSerializer = [AFHTTPResponseSerializer serializer];
+
+    NSURLSessionDataTask *dataTask;
+    dataTask = [URLSessionManager
+                dataTaskWithRequest:request
+                completionHandler:^(NSURLResponse *response,
+                                    id responseObject,
+                                    NSError *error) {
+                                      if (error) {
+                                        NSLog(@"Could not get image from image URL.. Error: %@"
+                                              ,error);
+                                      } else {
+                                        factData.factImage = [UIImage
+                                                              imageWithData:responseObject];
+                                      }
+
+                                      completionHandler();
+                                    }];
+    [dataTask resume];
+
+  } else {
+    NSLog(@"Image URL doesn't exist.");
+    completionHandler();
+  }
+}
+
 @end
