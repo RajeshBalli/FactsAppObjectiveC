@@ -94,13 +94,18 @@ typedef NS_ENUM(NSInteger, FactsListViewCellConstants) {
     CGFloat imageWidth = imageSize.width;
 
     // offsetwidth = spacing at left + spacing at right
-    CGFloat offsetWidth = FactsListViewCellConstraintLeftOffset - FactsListViewCellConstraintRightOffset;
+    CGFloat offsetWidth = FactsListViewCellConstraintLeftOffset
+                              - FactsListViewCellConstraintRightOffset;
 
     // if image extends beyond the cell then resize the image
     if (imageSize.width > (self.bounds.size.width - offsetWidth)) {
 
-      // get new image size based on aspect ratio of image. aspectRatio = (oldWidth / oldHeight). newWidth = (newHeight * aspectRatio).
-      imageWidth = _factsImageView.bounds.size.height * ((self.bounds.size.width - offsetWidth) / imageSize.height);
+      /* get new image size based on aspect ratio of image.
+       aspectRatio = (oldWidth / oldHeight).
+       newWidth = (newHeight * aspectRatio). */
+      imageWidth = _factsImageView.bounds.size.height
+                      * ((self.bounds.size.width - offsetWidth)
+                         / imageSize.height);
     }
 
     // update imageview width
